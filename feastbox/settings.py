@@ -2,24 +2,24 @@
 
 LOGIN_REDIRECT_URL='/'
 
-DEFAULT_FROM_EMAIL = 'tikue@feastbox.com'
+DEFAULT_FROM_EMAIL = 'an email address'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'tikue@feastbox.com'
+EMAIL_HOST_USER = 'an email address'
 EMAIL_HOST_PASSWORD = 'Zelunjo1'
-EMAIL_SUBJECT_PREFIX = 'Feastbox'
+EMAIL_SUBJECT_PREFIX = 'a password'
 EMAIL_USE_TLS = True 
 #EMAIL_PORT = "465"  #this line may not be required.
 EMAIL_PORT = 587 
 
 ALLOWED_INCLUDE_ROOTS = ('/opt/bitnami/apps/django/django_projects/feastbox/templates/', )
 
-FACEBOOK_APP_ID = '417996488311990'
-FACEBOOK_SECRET_KEY = 'b5e10b8e6f143eb2ee21f8289c04f26f'
+FACEBOOK_APP_ID = 'xxxx'
+FACEBOOK_SECRET_KEY = 'xxxx'
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 #FACEBOOK_REQUEST_PERMISSIONS = 'email'
 
-FACEBOOK_APP_ID              = '417996488311990'
-FACEBOOK_API_SECRET          = 'b5e10b8e6f143eb2ee21f8289c04f26f'
+FACEBOOK_APP_ID              = 'xxxx'
+FACEBOOK_API_SECRET          = 'xxxx'
 
 ACCOUNT_ACTIVATION_DAYS=7
 
@@ -38,7 +38,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Tikue Anazodo', 'antikceo@gmail.com'),
+    ('Xxxx', 'xxx.com'),
 )
 
 #unsure why I added this
@@ -51,8 +51,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'djangostack',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'postgres',
-        'PASSWORD': 'bitnami',
+        'USER': 'xxxx',
+        'PASSWORD': 'xxxx',
         'HOST': '/opt/bitnami/postgresql',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '5432',                      # Set to empty string for default.
     }

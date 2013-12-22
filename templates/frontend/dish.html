@@ -1,0 +1,107 @@
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	{{ this_dish.name }}
+{% endblock %}
+
+{% block js %}
+<script>
+$(document).ready( function(){ 
+
+    $("body").on("click", ".upvote", function(event){
+		var x = $(this).attr("name");
+      	$.ajax({
+        	type: "POST",
+            url: "/upvote/" + x  + "/", 
+            dataType: "json",
+            success : function(json) {
+               	var y = "vote-count" + x;
+				$('i[class= "' +  y + '"]').text(json.vote_count);
+				//flip button
+				$('.flip').find('.card').toggleClass('flipped');
+			},
+			error : function(xhr,errmsg,err) {
+				alert("oops, something went wrong! Please try again.");
+			}
+        }); //and ajax  
+        return false; 
+    }); //end onclick   
+    
+}); //end on ready
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="widewrapper weak-highlight">
+  <div class="container" align="center">
+  	<br><br><br>
+    <div class="row">
+
+      	<div class = "span11">
+      		<div class="thumbnail1">
+      				<div class="span3a">
+      					<div class="thumbnail">
+      						<h3 class="header" align="center">
+   								{% if this_dish %}
+        						{{ this_dish.name }} &nbsp; {{ temp }} 
+        						{% endif %}
+       						</h3>
+      						<div class="thumbnail2">
+      							<img class="food_pic" src="/media/{{ this_dish.image }}">
+      						</div>
+      					</div>
+      				</div>
+      				<div class="span3a">
+      					<div class="thumbnail">
+      						<p><b>Recipe URL:</b></p> <a href={{ this_dish.recipe_url}}>Click Here To See Recipe</a> 
+      						<br><br>
+      						<p><b>What You Will Need:</b></p>
+      						<p>{% for ingredient in this_dish.ingredients.all %} {{ ingredient }}, {% endfor %}</p>
+      						<div class="span3c">
+							<div class="btn-group">	
+      							<div class="flip flip{{ dish.id }}">
+									<div class="card">
+									{% if request.user.is_authenticated %}
+										{% if liked %}
+											<div class="face front">
+												<button type="button" class="btn btn-grove-one upvote" id="upvote" name="{{ this_dish.id }}">Upvoted <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ this_dish.id }}">{{ this_dish.other_votes }}</i></a></button>
+											</div>
+											<div class="face back">
+                								<button type="button" class="btn btn-grove-two upvote" id="upvote" name="{{ this_dish.id }}">Upvote <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ this_dish.id }}">{{ this_dish.other_votes }} </i></a></button>
+											</div>
+										{% else %}
+											<div class="face front">
+                								<button type="button" class="btn btn-grove-two upvote" id="upvote" name="{{ this_dish.id }}">Upvote <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ this_dish.id }}">{{ this_dish.other_votes }} </i></a></button>
+											</div>
+											<div class="face back">
+												<button type="button" class="btn btn-grove-one upvote" id="upvote" name="{{ this_dish.id }}">Upvoted <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ this_dish.id }}">{{ this_dish.other_votes }}</i></a></button>
+											</div>										
+										{% endif %}
+									{% else %}
+											<div class="face front">
+												<a href="/login"><button type="button" class="btn btn-grove-two" id="upvote" name="{{ this_dish.id }}">Upvote <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ this_dish.id }}">{{ this_dish.other_votes }}</i></button></a>
+											</div>							
+									{% endif %}
+									</div>
+								</div>
+							</div>
+							</div>
+      					</div>
+      				</div>
+      				<div class="span5c">
+      					<div class="thumbnail">
+      						<p><b>Comments:</b></p>  
+      						<div class="fb-comments" data-href="http://ec2-54-221-230-85.compute-1.amazonaws.com/dish/{{ this_dish.id }}" data-width="470"></div>
+      					</div>
+      				</div>
+      		</div>
+		</div>
+    </div>
+  </div>
+  <br><br>
+</div>
+ {% endblock %}

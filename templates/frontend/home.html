@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %}
+	Home
+{% endblock %}
+
+{% block js %}
+ 
+                     	
+                 	
+{{ block.super }}
+
+
+<script src="{% static "endless_pagination/js/endless-pagination.js" %}"></script>
+
+			
+<script>
+$(document).ready( function(){ 
+
+	$('#entries').endlessPaginate({
+		paginateOnScroll: true,
+        paginateOnScrollMargin: 20
+    });    
+    
+    $("body").on("click", ".sorter", function(event){
+		$('.row.replace').empty();
+		$('.row.replace').append("<br><br><br><br><p align='center'><img id='theImg' src='/media/loading1.gif'/></p><br><br><br><br><br><br><br><br>");
+		var sort = $(this).attr("name");
+		var filter = $('.select1').find(":selected").attr("name");
+      	$.ajax({
+        	type: "POST",
+        	url: "/filter_home/" + filter + "/" + sort + "/", 
+        	success : function(data) {
+				$('.row.replace').html(data);
+			},
+			error : function(xhr,errmsg,err) {
+				alert(err);
+			}
+    	}); //end ajax
+        return false;
+   	}); //end onclick
+   	
+    $("body").on("change", ".select1", function(event){
+		$('.row.replace').empty();
+		$('.row.replace').append("<br><br><br><br><p align='center'><img id='theImg' src='/media/loading1.gif'/></p><br><br><br><br><br><br><br><br>");
+		var filter = $(this).find(":selected").attr("name");
+      	$.ajax({
+        	    type: "POST",
+            	url: "/filter_home/" + filter + "/" + "RecentlyAdded" + "/", 
+               	success : function(data) {
+					$('.row.replace').html(data);
+				},
+				error : function(xhr,errmsg,err) {
+					alert(err);
+				}
+        });  //end ajax
+        return false;       	
+   	 }); //end onchange
+    
+    $("body").on("click", ".upvote", function(event){
+		var x = $(this).attr("name");
+      	$.ajax({
+        	type: "POST",
+            url: "/upvote/" + x  + "/", 
+            dataType: "json",
+            success : function(json) {
+               	var y = "vote-count" + x;
+				$('i[class= "' +  y + '"]').text(json.vote_count);
+				//flip button
+				$('.flip'+x).find('.card').toggleClass('flipped');
+			},
+			error : function(xhr,errmsg,err) {
+				alert("oops, something went wrong! Please try again.");
+			}
+        }); //and ajax  
+        return false; 
+    }); //end onclick   
+    
+}); //end on ready
+
+</script>
+ 
+{% endblock %}
+
+{% block hero %}
+
+{% endblock %}
+
+
+    {% block content %}
+    {% if not request.user.is_authenticated %} 
+    <div class="widewrapper">
+    	<div class="container">
+ 			<div class="row features">
+                <div class="span4 feature">
+                    <h3><a class="glyphicons search"><i></i></a>Explore</h3>
+                    <p>Explore a wide selection of user contributed recipes. You can choose to try new recipes of find a specific recipe.</p>
+                </div>
+                <div class="span4 feature">
+                    <h3><i class="glyphicons thumbs_up"><i></i></i>Vote</h3>
+                    <p>Upvote recipes you like. An upvote is the easiest way to keep track of recipes you want to try in future or on a recurring basis.</p>
+                </div>
+                <div class="span4 feature">
+                    <h3><i class="glyphicons link"><i></i></i>Post
+                    	
+                    </h3>
+                    <p>Post links to your favorite recipes from around the web. Links could point to your personal blog, or any appropriate blog/website. </p>
+                    <!-- <a href="/post-recipe"><button class="btn">Post Link </button></a> -->
+                </div>        
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="widewrapper weak-highlight">
+        <div class="container content">
+        	<h3 align="center"> Choose Box: </h3>
+        	<select class="select1">
+  				<option value="All" name="All">All</option>
+  				{% for box in boxes %}
+  					<option value="{{ box.name }}" name="{{ box.name }}">{{ box.name }}</option>
+  				{% endfor %}
+			</select>
+            <div class="row">
+                <div class="span12">
+                    <div class="showroom-controls">
+                        <div class="links">
+                        <!--
+                        	<a  href="#" class="sorter" name="TrendingNow">Trending Now</a>
+                        	<i class="verticalSeparator"></i>  
+                        -->
+                        	<a  class="sorter" name="RecentlyAdded">Recently Added</a>
+                        	<i class="verticalSeparator"></i>  
+                        	<a href="#" class="sorter" name="AllTimeMostUpvoted">All Time Most Upvoted</a>
+             			</div>
+                    </div>
+                    <div class="row replace" id="entries">
+                    	{% ssi '/opt/bitnami/apps/django/django_projects/feastbox/templates/frontend/scroll.html' parsed %}
+                    
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>            
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+

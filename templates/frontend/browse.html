@@ -1,0 +1,52 @@
+
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	Browse Page
+{% endblock %}
+
+{% block search %}
+	<br><br><br>
+	<div class="container">
+		<div class="span3">
+			<div class="thumbnail">
+				<br><br>
+				<label>Sort by:</label>
+				<select>
+					<option value="popular">Popular</option>
+					<option value="cheapest to prepare">Cheapest To Prepare</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="span9">
+			<div class="thumbnail">
+				<ul class="thumbnails">
+	    			{% if dishes %}
+	    			{% for dish in dishes %}
+					<li class="span3">
+			            <div class="thumbnail">
+			                <div class="pic">
+			                    <a href="/campaign/24">
+									<img class="thumb" src="http://www.epicurious.com/images/recipesmenus/2013/2013_september/51187100.jpg" alt="">
+			                    </a>
+			                </div>
+			                <h3>Brussel Sprout Kimchi</h3>
+						    <p>Delicious delicacy from Saudi Arabia. You don't want to miss this</p>
+						</div>
+			        </li>
+			        {% endfor %}
+			        {% endif %}
+			    </ul>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block content %}
+
+
+{% endblock %}

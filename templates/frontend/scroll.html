@@ -1,0 +1,75 @@
+						{% load endless %}
+						{% paginate 12 dishes %}
+						{% if request.user.is_authenticated %}
+                    	{% for dish, liked in dishes %}
+                        <div class="showroom-item span3">
+                            <div class="thumbnail">
+                                <a href="/dish/{{ dish.id }}" target="_blank"><img class="food_pic" src="/media/{{ dish.image }}" alt="Portfolio Image"> </a>
+								<div class="span3c"> 
+									<a href="/dish/{{ dish.id }}" target="_blank"><b> {{ dish.name }} </b> </a>
+								</div>
+								<div class="span3d"> 
+									posted by <a href="/profile/{{ dish.creator }}"><b> {{ dish.creator }}</b></a>
+								</div>
+								<div class="span3c">
+									<div class="btn-group">						
+										<div class="flip flip{{ dish.id }}">
+										<div class="card">
+										{% if liked %}
+											<div class="face front">
+												<button type="button" class="btn btn-grove-one upvote" id="upvote" name="{{ dish.id }}">Upvoted <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.other_votes }}</i></a></button>
+											</div>
+											<div class="face back">
+                								<button type="button" class="btn btn-grove-two upvote" id="upvote" name="{{ dish.id }}">Upvote <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.other_votes }} </i></a></button>
+											</div>
+										{% else %}
+											<div class="face front">
+                								<button type="button" class="btn btn-grove-two upvote" id="upvote" name="{{ dish.id }}">Upvote <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.other_votes }} </i></a></button>
+											</div>
+											<div class="face back">
+												<button type="button" class="btn btn-grove-one upvote" id="upvote" name="{{ dish.id }}">Upvoted <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.other_votes }}</i></a></button>
+											</div>										
+										{% endif %}
+										</div>
+										</div>
+            						</div>
+									<div class="btn-group">
+                						<a href="/dish/{{ dish.id }}"> <button type="button" class="btn btn-grove-two"><i class="glyphicons comments"><i></i></i></button></a>
+            						</div>
+            					</div>
+                            </div>
+                        </div>    
+                      	{% endfor %}     
+                      	{% else %}
+                    	{% for dish in dishes %}
+                        <div class="showroom-item span3">
+                            <div class="thumbnail">
+                                <a href="/dish/{{ dish.id }}" target="_blank"><img class="food_pic" src="/media/{{ dish.image }}" alt="Portfolio Image"> </a>
+								<div class="span3c"> 
+									<a href="/dish/{{ dish.id }}" target="_blank"><b> {{ dish.name }} </b> </a>
+								</div>
+								<div class="span3d"> 
+									posted by <a href="/profile/{{ dish.creator }}"><b> {{ dish.creator }}</b></a>
+								</div>
+								<div class="span3c">
+									<div class="btn-group">						
+										<div class="flip flip{{ dish.id }}">
+										<div class="card">
+											<div class="face front">
+                								<a href="/login"><button type="button" class="btn btn-grove-two" id="upvote" name="{{ dish.id }}">Upvote <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.other_votes }} </i></button></a>
+											</div>
+											<div class="face back">
+												<button type="button" class="btn btn-grove-one" id="upvote" name="{{ dish.id }}">Upvoted <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.other_votes }}</i></a></button>
+											</div>										
+										</div>
+										</div>
+            						</div>
+									<div class="btn-group">
+                						<a href="/dish/{{ dish.id }}"> <button type="button" class="btn btn-grove-two"><i class="glyphicons comments"><i></i></i></button></a>
+            						</div>
+            					</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                      	{% endif %}
+                    	<h3 align="center"> {% show_more %} </h3>

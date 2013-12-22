@@ -1,0 +1,100 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+#dishes table
+class Dishes(models.Model):
+	dish = models.CharField(models.CharField(max_length=50)
+	description = models.TextField()
+	tag1 = models.CharField(max_length=40)
+	tag2 = models.CharField(max_length=40)
+	tag3 = models.CharField(max_length=40)
+	cuisine = models.CharField(max_length=40)
+	image1 = models.ImageField(upload_to='Dish-Photo')
+	source = models.CharField(max_length=40)
+	source_url = models.URLField()
+
+#ingredients tables
+class Ingredients(models.Model):
+	product = models.CharField(max_length=50)
+	description = models.TextField()
+	category = models.CharField(max_length=40)
+	maufacturer = models.CharField(max_length=40)
+	size_in_g = models.IntegerField()
+	calories = models.IntegerField()
+	fat_total = models.IntegerField()
+	carbs_total = models.IntegerField()
+	protein_total = models.IntegerField()
+	has_milk = models.BooleanField()
+	has_eggs  = models.BooleanField()
+	has_peanuts = models.BooleanField()
+	has_treenuts = models.BooleanField()
+	has_fish = models.BooleanField()
+	has_soy = models.BooleanField()
+	has_shellfish = models.BooleanField()
+	is_vegetarian = models.BooleanField()
+	is_vegan = models.BooleanField()
+	in_traders_joe  = models.BooleanField()
+	in_safeway = models.BooleanField()
+	in_wholefoods = models.BooleanField()
+	in_costco = models.BooleanField()
+	in_walmart = models.BooleanField()
+	average_price = models.IntegerField()
+
+#Ingredients in Dishes
+class Dishes_Ingredients(models.Model):
+	dish = models.ForeignKey(Dishes)
+	ingredient = models.ForeignKey(Ingredients)
+
+#all items users have ever added to their cart 
+class Cart_History(models.Model):
+	user = models.ForeignKey(User)
+	ingredient = models.ForeignKey(Ingredients)
+	quantity = models.IntegerField()
+	date_added = models.DateTimeField(auto_now_add=True)
+
+#all items currently in a user's cart 
+class Cart(models.Model):
+	user = models.ForeignKey(User)
+	ingredient = models.ForeignKey(Ingredients)
+	quantity = models.IntegerField()
+	date_added = models.DateTimeField(auto_now_add=True)
+
+#recipe instructions for preparing dish
+class Recipe(models.Model):
+	dish = models.ForeignKey(Dishes)
+	recipe = models.TextField()
+
+#user reviews for a particular dish
+class Reviews(models.Model):
+	user = models.ForeignKey(User)
+	dish = models.ForeignKey(Dishes)
+	review = models.TextField()
+
+#user star ratings for a dish
+class Ratings(models.Model):
+	user = models.ForeignKey(User)
+	dish = models.ForeignKey(Dishes)
+	rating = models.IntegerField()
+
+#follower-followed relationship
+#class Follows(models.Model):
+#	follower = models.ForeignKey(User)
+#	followed = models.ForeignKey(User)
+
+#recommend dishes to followers
+class Reccomends_Dish(models.Model):
+	user = models.ForeignKey(User)
+	dish = models.ForeignKey(Dishes)
+
+class Comments(models.Model):
+	user = models.ForeignKey(User)
+	dish = models.ForeignKey(Dishes)
+	comment = models.TextField()
+
+#class Weekly_Calendar:
+#	user = models.ForeignKey(User)
+#	date = models.DateField()
+#	breakfast = models.CharField()
+#	lunch = models.CharField()
+#	dinner = models.CharField()
+#	treat = models.CharField()

@@ -1,0 +1,6 @@
+{{ object.name }}
+{{ object.image }}
+{{ object.creator }}
+{{ object.recipe_url }}
+{{ object.other_votes }}
+{{ object.comment_count }}

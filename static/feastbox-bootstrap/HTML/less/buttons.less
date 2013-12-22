@@ -1,0 +1,102 @@
+// .buttonBackground(@startColor, @endColor, @textColor: #fff, @textShadow: 0 -1px 0 rgba(0,buttonBackground0,0,.25)) {
+
+.btn-grove-one {
+    .buttonBackground(@gradient-one-start, @gradient-one-end, @textColor:@gradient-one-text, @textShadow: none);
+
+    .caret {
+        border-top-color: @gradient-one-text;    
+    }
+
+    .glyphicons i:before {
+        color:@gradient-one-text;
+    }
+}
+
+.btn-grove-two {
+    .buttonBackground(@gradient-two-start, @gradient-two-end, @textColor:@gradient-two-text, @textShadow: none);
+}
+
+.btn-grove-three {
+    .buttonBackground(@button-three-background, @button-three-background, @textColor:@button-three-link, @textShadow: none);   
+    
+    .glyphicons i:before {
+        color:@button-three-link;
+    }
+}
+
+.btn-group.open {
+  .btn-grove-one.dropdown-toggle {
+    background-color: @gradient-one-end;
+  }
+
+  .btn-grove-two.dropdown-toggle {
+    background-color: @gradient-two-end;
+  }  
+}
+
+.btn-grove-flat,
+.btn-group .btn-grove-flat,
+.btn-group .btn-grove-flat:first-child,
+.btn-group .btn-grove-flat:last-child{
+    border:none;
+    .box-shadow(none);
+    .border-radius(3px);
+}
+
+
+.btn-grove-small {
+    font-size: 12px;
+    line-height: 18px;
+    padding:9px 10px;
+    letter-spacing:1px; 
+
+    .glyphicons {
+        padding-left:20px;
+    
+        i:before {
+            font-size:16px;
+            top:-3px;      
+        }
+    }
+}
+
+.btn-grove-medium {
+    font-size: 14px;
+    line-height: 20px;
+    padding:11px 10px;
+    letter-spacing:1px;     
+    
+    .glyphicons {
+        padding-left:23px;
+
+        i:before {
+            font-size:20px;
+            top:-5px;
+        }
+    }
+}
+
+.btn-grove-large {
+    font-size: 15px;
+    line-height: 20px;
+    padding:18px 22px;
+    letter-spacing:2px;
+
+    .glyphicons i:before {
+        font-size:24px;
+        top:-9px;        
+    }    
+}
+
+.btn-grove-bold {
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.btn-group {
+    .dropdown-menu.grove-dropdown {
+        background-color: @dropdown-background-stronger-legacy;
+        background-color: @dropdown-background-stronger;
+        margin-top:-1px;
+    }
+}

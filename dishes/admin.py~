@@ -1,0 +1,10 @@
+from django.contrib import admin
+from dishes import models
+
+class Dishes(admin.ModelAdmin):
+    list_display = ('dish', 'description', 'tag1', 'tag2', 'tag3', 'cuisine', 'image1', 'source', 'source_url')
+    list_filter = ('timestamp',)
+    ordering = ('-timestamp',)
+
+admin.site.register(models.Dishes, Dishes)
+admin.site.register(models.Ingredients)

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Post Recipe{% endblock %}
+
+{% block js %}
+
+<script>
+$(document).each($("select[multiple]"), function () {  
+ // "Locations" can be any label you want  
+ SelectFilter.init(this.id, "Locations", 0, "/media/");  
+}); 
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="widewrapper weak-highlight">
+<div id="box_post">
+  <div class="container">
+    <div class="span12 box_wrapper">
+      {% if errors %}
+      {% for error in errors %}
+      <div class="alert alert-error">
+	<button data-dismiss="alert" class="close" type="button">×</button>
+	{{ error }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      <div class="span12 box">
+        <div>
+          <div class="head">
+            <h4>Post Recipe</h4>
+          </div>
+          <div class="form">
+            {% if form.errors %}
+            <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
+            {% endif %}
+            <!--
+            <form method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
+            	<label>Recipe Name:</label>
+                {{ form.name }}
+                <label >Ingredients:</label>
+                {{ form.ingredients }}
+                <label >Boxes:</label>
+                {{ form.boxes }}
+                <label >Image:</label>
+                {{ form.image }}
+            	<label>Recipe URL:</label>
+                {{ form.recipe_url }}
+                
+            </form>
+            -->
+            <form method="post" class="module" enctype="multipart/form-data" action="">{% csrf_token %}
+            {{form.as_p}}
+            <p align="center"><button class="btn btn-grove-one default" type="submit">Post Recipe</button></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+

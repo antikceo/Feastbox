@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block title %}
+	{{ username }}'s profile
+{% endblock %}
+
+
+{% block js %}
+ 		
+<script>
+$(document).ready( function(){ 
+
+    $("body").on("click", ".upvote", function(event){
+		var x = $(this).attr("name");
+      	$.ajax({
+        	type: "POST",
+            url: "/upvote/" + x  + "/", 
+            dataType: "json",
+            success : function(json) {
+               	var y = "vote-count" + x;
+				$('i[class= "' +  y + '"]').text(json.vote_count);
+				//flip button
+				$('.flip'+x).find('.card').toggleClass('flipped');
+			},
+			error : function(xhr,errmsg,err) {
+				alert("oops, something went wrong! Please try again.");
+			}
+        }); //and ajax  
+        return false; 
+    }); //end onclick   
+    
+}); //end on ready
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="widewrapper weak-highlight">
+    	<div class="container content">
+	<!--<br><h3 align="center">{{ username }}'s profile summary</h3> <br>
+	
+    <div class="row">
+      	<div class = "span7">
+      		<div class="thumbnail2">
+      			<div class = "span7">
+      				<div class="thumbnail1">
+      				<b> Username
+      				</div>
+      			</div>
+      		</div>
+		</div>
+	</div>
+	-->
+    		<div class="row">
+    			{% if username  == user.username %}
+    			<hr>
+    			<h1 align="center"> Recipes You Posted </h1>
+    			<hr>
+    			{% else %}
+    			<hr>
+    			<h1 align="center"> Posts by {{ username }} </h1>
+    			<hr>
+    			{% endif %}
+    				{% if posts %}
+						{% for dish in posts %}
+                        <div class="showroom-item span3">
+                            <div class="thumbnail">
+                                <a href="{{ dish.recipe_url }}" target="_blank"><img class="food_pic" src="/media/{{ dish.image }}" alt="Portfolio Image"> </a>
+								<div class="span3c"> 
+									<a href="{{ dish.recipe_url }}" target="_blank"><b> {{ dish.name }} </b> </a>
+								</div>
+								<div class="span3d"> 
+									posted by <a href="/profile/{{ dish.creator }}"><b> {{ dish.creator }}</b></a>
+								</div>
+								<div class="span3c">
+									<div class="btn-group">						
+										<div class="flip flip{{ dish.id }}">
+										<div class="card">
+											<div class="face front">
+                								<button type="button" class="btn btn-grove-two upvote" id="upvote" name="{{ dish.id }}">Upvote <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.other_votes }} </i></button>
+											</div>
+											<div class="face back">
+												<button type="button" class="btn btn-grove-one upvote" id="upvote" name="{{ dish.id }}">Upvoted <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.other_votes }}</i></a></button>
+											</div>										
+										</div>
+										</div>
+            						</div>
+									<div class="btn-group">
+                						<a href="/dish/{{ dish.id }}"> <button type="button" class="btn btn-grove-two"><i class="glyphicons comments"><i></i></i></button></a>
+            						</div>
+            					</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                    <br> <h2 align="center"> <i>{{ username }} has not posted anything </i></h2>
+                    <p align="center"> <a href="/post-recipe"> <button class="btn btn-grove-one">Post a Recipe</button></a> </p>
+                    {% endif %}
+                        <br>
+            </div>
+            {% if username  == user.username %}
+                <div class="widewrapper weak-highlight">
+    	<div class="container content">
+            <div class="row">
+            	<hr>
+    			<h1 align="center"> Recipes You Upvoted</h1>
+    			<hr>
+						{% for dish in upvotes %}
+                        <div class="showroom-item span3">
+                            <div class="thumbnail">
+                                <a href="{{ dish.dish.recipe_url }}" target="_blank"><img class="food_pic" src="/media/{{ dish.dish.image }}" alt="Portfolio Image"> </a>
+								<div class="span3c"> 
+									<a href="{{ dish.dish.recipe_url }}" target="_blank"><b> {{ dish.dish.name }} </b> </a>
+								</div>
+								<div class="span3d"> 
+									posted by <a href="/profile/{{ dish.dish.creator }}"><b> {{ dish.dish.creator }}</b></a>
+								</div>
+								<div class="span3c">
+									<div class="btn-group">						
+										<div class="flip flip{{ dish.id }}">
+										<div class="card">
+											<div class="face front">
+                								<button type="button" class="btn btn-grove-two upvote" id="upvote" name="{{ dish.dish.id }}">Upvote <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.dish.other_votes }} </i></button>
+											</div>
+											<div class="face back">
+												<button type="button" class="btn btn-grove-one upvote" id="upvote" name="{{ dish.dish.id }}">Upvoted <i class="glyphicons thumbs_up"><i></i></i><i class="vote-count{{ dish.id }}">{{ dish.dish.other_votes }}</i></a></button>
+											</div>										
+										</div>
+										</div>
+            						</div>
+									<div class="btn-group">
+                						<a href="/dish/{{ dish.dish.id }}"> <button type="button" class="btn btn-grove-two"><i class="glyphicons comments"><i></i></i></button></a>
+            						</div>
+            					</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                </div>
+            </div>   
+            </div></div>
+            {% endif %}         
+    	</div>
+    </div>
+
+{% endblock %}
